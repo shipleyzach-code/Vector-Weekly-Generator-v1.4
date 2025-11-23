@@ -3,7 +3,7 @@ import csv
 import io
 
 # --- Import your logic ---
-from Vector_Generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips
+from vector_generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips
 
 # --- Streamlit App ---
 st.set_page_config(page_title="Vector Weekly Generator v1.4", layout="wide")
