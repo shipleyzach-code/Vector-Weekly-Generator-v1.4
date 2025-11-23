@@ -34,6 +34,11 @@ strength_details = {
     "Upper Body Day": "• 3 sets x 8–12 reps for chest, back, shoulders",
     "Lower Body Day": "• 3 sets x 10–12 reps for legs"
 }
+running_details = {
+    "Easy": "• Zone 1–2 pace, conversational. Focus on consistency.",
+    "Interval": "• 6–8 x 400m fast with 90s rest. Maintain good form.",
+    "Long": "• Long steady effort. Focus on endurance and pacing."
+}
 
 # --- Mindset Tips ---
 weekly_mindset_tips = [
