@@ -1,5 +1,5 @@
 import streamlit as st
-from Vector_Generator_v1.4 import build_6week_plan, weekly_mindset_tips
+from Vector_Generator_v1_4 import build_6week_plan, weekly_mindset_tips
 import pandas as pd
 import csv
 from io import StringIO
