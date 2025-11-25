@@ -31,9 +31,16 @@ st.markdown("""
 st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layout="wide")
 
 #Logo Centering
-st.markdown("""
+from pathlib import Path
+
+logo_path = "/mnt/data/59239AC8-8186-4B86-BBD2-30AB909056EC.jpeg"
+
+# This tells Streamlit to serve the image file
+logo_url = Path(logo_path).as_posix()
+
+st.markdown(f"""
 <div style="display:flex; justify-content:center; margin-bottom:20px;">
-    <img src="VFC_Primary Blue.png" width="150">
+    <img src="{logo_url}" width="150">
 </div>
 """, unsafe_allow_html=True)
 
