@@ -42,7 +42,6 @@ with col2:
         st.image("VFC_Primary_Blue.png", width=150)
     except Exception as e:
         st.error(f"Logo error: {e}")
-        st.write("Current directory:", os.getcwd())
 
 st.markdown(f"""
 <div style="display:flex; justify-content:center; margin-bottom:20px;">
