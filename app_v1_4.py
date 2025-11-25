@@ -2,6 +2,13 @@
 import streamlit as st
 from vector_generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips
 
+# Branding
+st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layout="wide")
+st.title("💪 Vector Weekly Training Generator")
+st.subheader("Generate your 6-week strength, running, or hybrid plan")
+
+# Optional: add a logo
+st.image("VFC_Primary Blue.png", width=150)
 st.set_page_config(page_title="Vector Weekly Generator", layout="wide")
 
 st.title("Vector Weekly Program Generator")
@@ -35,3 +42,33 @@ if st.button("Generate Weekly Program"):
         st.table(table_data)
 
     st.success("Program generated successfully!")
+
+import io
+import csv
+
+def generate_csv(full_plan):
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Day", "Workout", "Details"])
+    for day, workout, detail in full_plan:
+        writer.writerow([day, workout, detail])
+    return output.getvalue()
+
+# Use after generating the plan
+csv_data = generate_csv(full_plan)
+st.download_button(
+    label="Download 6-Week Plan as CSV",
+    data=csv_data,
+    file_name="vector_weekly_plan.csv",
+    mime="text/csv"
+)
+
+#Expander for each week
+days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+week_num = 1
+for i in range(0, len(full_plan), 7):
+    week = full_plan[i:i+7]
+    with st.expander(f"Week {week_num}"):
+        for day, workout, detail in week:
+            st.markdown(f"**{day}:** {workout}  \n{detail}")
+    week_num += 1
