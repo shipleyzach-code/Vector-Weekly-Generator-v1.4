@@ -32,22 +32,12 @@ st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layou
 
 # Logo Centering
 import os
-
-# Debug: Check what files exist
-st.write("Files in directory:", os.listdir("."))
-
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     try:
         st.image("VFC_Primary_Blue.png", width=150)
     except Exception as e:
         st.error(f"Logo error: {e}")
-
-st.markdown(f"""
-<div style="display:flex; justify-content:center; margin-bottom:20px;">
-    <img src="{logo_url}" width="150">
-</div>
-""", unsafe_allow_html=True)
 
 st.title("💪 Vector Weekly Training Generator")
 st.subheader("Generate your 6-week strength, running, or hybrid plan")
