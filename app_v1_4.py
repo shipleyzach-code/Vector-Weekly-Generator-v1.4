@@ -10,9 +10,32 @@ from vector_generator_v1_4 import (
     weekly_mindset_tips,
 )
 
+st.markdown("""
+    <style>
+        /* Increase width of first column (Day) */
+        thead th:first-child, tbody td:first-child {
+            min-width: 140px !important;
+            max-width: 160px !important;
+            width: 160px !important;
+            white-space: nowrap !important;
+        }
+
+        /* Make table text larger + cleaner */
+        table {
+            font-size: 1.05rem !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # --- Branding ---
 st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layout="wide")
-st.image("VFC_Primary Blue.png", width=250)
+
+#Logo Centering
+st.markdown("""
+<div style="display:flex; justify-content:center; margin-bottom:20px;">
+    <img src="VFC_Primary Blue.png" width="150">
+</div>
+""", unsafe_allow_html=True)
 
 st.title("💪 Vector Weekly Training Generator")
 st.subheader("Generate your 6-week strength, running, or hybrid plan")
@@ -58,7 +81,9 @@ if st.button("Generate Weekly Program"):
             table_data.append([days_of_week[i], workout, detail])
             full_plan.append((days_of_week[i], workout, detail))
 
-        st.table(table_data)
+        import pandas as pd
+        df = pd.DataFrame(table_data, columns=["Day", "Workout", "Details"])
+        st.dataframe(df, use_container_width=True)
 
     # CSV Export
     csv_data = generate_csv(full_plan)
