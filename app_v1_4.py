@@ -35,7 +35,7 @@ import os
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     try:
-        st.image("VFC_Primary_Blue.png", width=150)
+        st.image("VFC_Primary_Blue.png", width=350)
     except Exception as e:
         st.error(f"Logo error: {e}")
 
