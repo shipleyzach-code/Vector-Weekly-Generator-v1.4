@@ -42,7 +42,7 @@ if st.button("Generate Weekly Program"):
             table_data.append([days_of_week[i], workout, detail])
         st.table(table_data)
         if st.button("Generate Weekly Plan"):
-    full_plan = build_week(experience, week_type)
+            full_plan = build_week(experience, week_type)
 
     # Display plan
     st.subheader("Your Weekly Training Plan")
