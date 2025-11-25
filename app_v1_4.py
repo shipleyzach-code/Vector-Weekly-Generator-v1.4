@@ -1,93 +1,36 @@
 # app_v1_4.py
 import streamlit as st
-from vector_generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips, generate_csv
+import csv
+import io
+from vector_generator_v1_4 import (
+    build_week,
+    plans,
+    strength_details,
+    running_details,
+    weekly_mindset_tips,
+)
 
-#logo
-st.image("VFC_Primary Blue.png", width=150)
-st.set_page_config(page_title="Vector Weekly Generator", layout="wide")
-
-# Branding
+# --- Branding ---
 st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layout="wide")
+st.image("VFC_Primary Blue.png", width=250)
+
 st.title("💪 Vector Weekly Training Generator")
 st.subheader("Generate your 6-week strength, running, or hybrid plan")
-
-
-st.title("Vector Weekly Program Generator")
-st.markdown(
-    "Generate a 6-week training plan based on your experience, goals, and available training days."
-)
+st.markdown("---")
 
 # --- User Inputs ---
 experience = st.selectbox("Select your experience level:", ["beginner", "intermediate", "advanced"])
 goal = st.selectbox("Select your primary goal:", ["strength", "running", "hybrid"])
-available_days = st.slider("How many days per week can you train?", min_value=3 if experience != "advanced" else 5, max_value=7, value=5)
+available_days = st.slider(
+    "How many days per week can you train?",
+    min_value=3 if experience != "advanced" else 5,
+    max_value=7,
+    value=5
+)
 
 st.markdown("---")
 
-# --- Generate Plan ---
-if st.button("Generate Weekly Program"):
-    full_plan = []
-
-    for w in range(1, 7):
-        week, deload = build_week(experience, goal, available_days, w)
-        days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        
-        week_label = f"Week {w}" + (" – DELOAD WEEK" if deload else "")
-        st.subheader(week_label)
-        st.markdown(f"**Mindset Tip:** {weekly_mindset_tips[w-1]}")
-
-        # Display as a table
-        table_data = []
-        for i, (workout, detail) in enumerate(week):
-            table_data.append([days_of_week[i], workout, detail])
-        st.table(table_data)
-        if st.button("Generate Weekly Plan"):
-            full_plan = build_week(experience, week_type)
-
-    # Display plan
-    st.subheader("Your Weekly Training Plan")
-    for day, blocks in full_plan.items():
-        with st.expander(day):
-            for block in blocks:
-                st.markdown(f"**{block['summary']}**")
-                st.write(block['details'])
-
-    # Generate CSV
-    csv_data = generate_csv(full_plan)
-
-    # CSV Download button
-    st.download_button(
-        label="Download CSV",
-        data=csv_data,
-        file_name="vector_training_week.csv",
-        mime="text/csv"
-    )
-    st.success("Program generated successfully!")
-
-import io
-import csv
-
-from io import StringIO
-
-def generate_csv(full_plan):
-    """
-    full_plan should be a dict with keys like:
-    - "strength"
-    - "running"
-    - "mindset"
-    etc.
-    """
-    output = StringIO()
-    writer = csv.writer(output)
-
-    writer.writerow(["Section", "Day", "Details"])
-
-    for section, days in full_plan.items():
-        for day, content in days.items():
-            writer.writerow([section.capitalize(), day.capitalize(), content])
-
-    return output.getvalue()
-
+# --- CSV Generator ---
 def generate_csv(full_plan):
     output = io.StringIO()
     writer = csv.writer(output)
@@ -96,13 +39,34 @@ def generate_csv(full_plan):
         writer.writerow([day, workout, detail])
     return output.getvalue()
 
+# --- Generate Program ---
+if st.button("Generate Weekly Program"):
+    full_plan = []
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-#Expander for each week
-days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-week_num = 1
-for i in range(0, len(full_plan), 7):
-    week = full_plan[i:i+7]
-    with st.expander(f"Week {week_num}"):
-        for day, workout, detail in week:
-            st.markdown(f"**{day}:** {workout}  \n{detail}")
-    week_num += 1
+    for w in range(1, 7):
+        week, deload = build_week(experience, goal, available_days, w)
+
+        # Week Header
+        week_label = f"Week {w}" + (" – DELOAD WEEK" if deload else "")
+        st.subheader(week_label)
+        st.markdown(f"**Mindset Tip:** {weekly_mindset_tips[w-1]}")
+
+        # Display table
+        table_data = []
+        for i, (workout, detail) in enumerate(week):
+            table_data.append([days_of_week[i], workout, detail])
+            full_plan.append((days_of_week[i], workout, detail))
+
+        st.table(table_data)
+
+    # CSV Export
+    csv_data = generate_csv(full_plan)
+    st.download_button(
+        label="Download CSV",
+        data=csv_data,
+        file_name="vector_training_plan.csv",
+        mime="text/csv"
+    )
+
+    st.success("Program generated successfully!")
