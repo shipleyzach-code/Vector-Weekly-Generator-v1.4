@@ -96,14 +96,6 @@ def generate_csv(full_plan):
         writer.writerow([day, workout, detail])
     return output.getvalue()
 
-# Use after generating the plan
-csv_data = generate_csv(full_plan)
-st.download_button(
-    label="Download 6-Week Plan as CSV",
-    data=csv_data,
-    file_name="vector_weekly_plan.csv",
-    mime="text/csv"
-)
 
 #Expander for each week
 days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
