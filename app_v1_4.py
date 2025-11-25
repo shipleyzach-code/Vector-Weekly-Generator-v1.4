@@ -33,7 +33,7 @@ st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layou
 # Logo Centering
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
-    st.image("VFC_Primary%20Blue.png", width=250)
+    st.image("VFC_Primary Blue.png", width=250)
 
 
 st.markdown(f"""
