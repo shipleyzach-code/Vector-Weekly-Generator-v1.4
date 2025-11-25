@@ -31,10 +31,18 @@ st.markdown("""
 st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layout="wide")
 
 # Logo Centering
+import os
+
+# Debug: Check what files exist
+st.write("Files in directory:", os.listdir("."))
+
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
-    st.image("VFC_Primary Blue.png", width=250)
-
+    try:
+        st.image("VFC_Primary Blue.png", width=150)
+    except Exception as e:
+        st.error(f"Logo error: {e}")
+        st.write("Current directory:", os.getcwd())
 
 st.markdown(f"""
 <div style="display:flex; justify-content:center; margin-bottom:20px;">
