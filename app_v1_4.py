@@ -1,15 +1,17 @@
 # app_v1_4.py
 import streamlit as st
 from vector_generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips
+from vector_generator_v1_4 import generate_csv
+
+#logo
+st.image("VFC_Primary Blue.png", width=150)
+st.set_page_config(page_title="Vector Weekly Generator", layout="wide")
 
 # Branding
 st.set_page_config(page_title="Vector Weekly Generator", page_icon="💪", layout="wide")
 st.title("💪 Vector Weekly Training Generator")
 st.subheader("Generate your 6-week strength, running, or hybrid plan")
 
-# Optional: add a logo
-st.image("VFC_Primary Blue.png", width=150)
-st.set_page_config(page_title="Vector Weekly Generator", layout="wide")
 
 st.title("Vector Weekly Program Generator")
 st.markdown(
@@ -45,6 +47,27 @@ if st.button("Generate Weekly Program"):
 
 import io
 import csv
+
+from io import StringIO
+
+def generate_csv(full_plan):
+    """
+    full_plan should be a dict with keys like:
+    - "strength"
+    - "running"
+    - "mindset"
+    etc.
+    """
+    output = StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow(["Section", "Day", "Details"])
+
+    for section, days in full_plan.items():
+        for day, content in days.items():
+            writer.writerow([section.capitalize(), day.capitalize(), content])
+
+    return output.getvalue()
 
 def generate_csv(full_plan):
     output = io.StringIO()
