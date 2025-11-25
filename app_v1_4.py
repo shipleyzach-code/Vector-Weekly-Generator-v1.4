@@ -1,7 +1,6 @@
 # app_v1_4.py
 import streamlit as st
-from vector_generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips
-from vector_generator_v1_4 import generate_csv
+from vector_generator_v1_4 import build_week, plans, strength_details, running_details, weekly_mindset_tips, generate_csv
 
 #logo
 st.image("VFC_Primary Blue.png", width=150)
