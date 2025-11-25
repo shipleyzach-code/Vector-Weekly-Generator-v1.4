@@ -41,7 +41,27 @@ if st.button("Generate Weekly Program"):
         for i, (workout, detail) in enumerate(week):
             table_data.append([days_of_week[i], workout, detail])
         st.table(table_data)
+        if st.button("Generate Weekly Plan"):
+    full_plan = build_week(experience, week_type)
 
+    # Display plan
+    st.subheader("Your Weekly Training Plan")
+    for day, blocks in full_plan.items():
+        with st.expander(day):
+            for block in blocks:
+                st.markdown(f"**{block['summary']}**")
+                st.write(block['details'])
+
+    # Generate CSV
+    csv_data = generate_csv(full_plan)
+
+    # CSV Download button
+    st.download_button(
+        label="Download CSV",
+        data=csv_data,
+        file_name="vector_training_week.csv",
+        mime="text/csv"
+    )
     st.success("Program generated successfully!")
 
 import io
