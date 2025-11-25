@@ -149,6 +149,29 @@ def build_week(exp, goal, available_days, week_num):
 
     return week, deload
 
+import csv
+import io
+
+def generate_csv(full_plan):
+    """
+    Convert the weekly plan dictionary into CSV format and return it as bytes.
+    """
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow(["Day", "Activity Type", "Summary", "Details"])
+
+    for day, blocks in full_plan.items():
+        for block in blocks:
+            writer.writerow([
+                day,
+                block.get("type", ""),
+                block.get("summary", ""),
+                block.get("details", "")
+            ])
+
+    return output.getvalue().encode("utf-8")
+
 # --- Main function for Streamlit ---
 def generate_weekly_program(experience, goal, available_days):
     """Return full 6-week schedule as list of tuples: (Day, Workout, Detail)"""
